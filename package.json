@@ -1,16 +1,8 @@
 {
 	"name": "obsidian-simple-file-info",
 	"version": "1.0.0",
-	"description": "A simple file info pane that lives in the right sidebar.",
-	"main": "main.js",
-	"scripts": {
-		"dev": "node esbuild.config.mjs",
-		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
-		"version": "node version-bump.mjs && git add manifest.json versions.json"
-	},
-	"keywords": [],
 	"author": "lukas-cap",
-	"license": "MIT",
+	"main": "main.js",
 	"devDependencies": {
 		"@types/node": "^16.11.6",
 		"@typescript-eslint/eslint-plugin": "5.29.0",
@@ -20,5 +12,16 @@
 		"obsidian": "latest",
 		"tslib": "2.4.0",
 		"typescript": "4.7.4"
+	},
+	"description": "A simple file info pane that lives in the right sidebar.",
+	"keywords": [],
+	"license": "MIT",
+	"scripts": {
+		"dev": "node esbuild.config.mjs",
+		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+		"version": "node version-bump.mjs && git add manifest.json versions.json"
+	},
+	"dependencies": {
+		"exifreader": "^4.26.1"
 	}
 }

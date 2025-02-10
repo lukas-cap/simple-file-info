@@ -1,4 +1,5 @@
 import { ItemView, Notice, WorkspaceLeaf } from "obsidian";
+import * as ExifReader from 'exifreader';
 
 export const VIEW_TYPE_FILE_INFO = "file-info-view";
 
@@ -91,36 +92,46 @@ export class FileInfoView extends ItemView {
             createInfoItem('File name', activeFile.name);
             createInfoItem('Vault path', activeFile.path);
 
-            const fileStats = await vault.adapter.stat(activeFile.path);
-            if (fileStats) {
-                const createdDate = new Date(fileStats.ctime);
-                const modifiedDate = new Date(fileStats.mtime);
+            const stats = activeFile.stat;
+            const createdDate = new Date(stats.ctime);
+            const modifiedDate = new Date(stats.mtime);
 
-                createInfoItem('Created', createdDate.toLocaleString());
-                createInfoItem('Modified', modifiedDate.toLocaleString());
-                createInfoItem('Size', this.formatFileSize(fileStats.size));
+            createInfoItem('Created', createdDate.toLocaleString());
+            createInfoItem('Modified', modifiedDate.toLocaleString());
+            createInfoItem('Size', this.formatFileSize(stats.size));
 
-                // Check if file is an image
-                const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.svg'];
-                if (imageExtensions.some(ext => activeFile.path.toLowerCase().endsWith(ext))) {
-                    const arrayBuffer = await vault.readBinary(activeFile);
-                    const blob = new Blob([arrayBuffer]);
-                    const url = URL.createObjectURL(blob);
-                    
-                    // Create image and wait for it to load
-                    const img = new Image();
-                    await new Promise((resolve, reject) => {
-                        img.onload = resolve;
-                        img.onerror = reject;
-                        img.src = url;
-                    });
+            // Check if file is an image
+            // We don't want to waste time loading the file if it's not an image
+            const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.svg', '.webp'];
+            if (imageExtensions.some(ext => activeFile.path.toLowerCase().endsWith(ext))) {
+                const arrayBuffer = await vault.readBinary(activeFile);
+                const blob = new Blob([arrayBuffer]);
+                const url = URL.createObjectURL(blob);
 
-                    createHeaderItem('Image');
-                    createInfoItem('Width', `${img.naturalWidth}px`);
-                    createInfoItem('Height', `${img.naturalHeight}px`);
-                    
-                    URL.revokeObjectURL(url);
+                const tags = ExifReader.load(arrayBuffer);
+
+                createHeaderItem('Image');
+
+                if (tags?.FileType) {
+                    createInfoItem('Format', tags.FileType.description)
                 }
+
+                // For image width, height, check if we have info in any of the relevant tags
+                // Different formats can store this info in different tags
+                const width = tags?.["Image Width"] ?? tags?.["ImageWidth"];
+                const height = tags?.["Image Height"] ?? tags?.["ImageHeight"];
+                
+                if (width && height) {
+                    createInfoItem('Width', width.description);
+                    createInfoItem('Height', height.description);
+                }
+
+                const colorSpace = tags?.ColorSpace ?? tags?.["Color Space"] ?? tags?.["Color Type"];
+                if (colorSpace) {
+                    createInfoItem('Color Space', colorSpace.description);
+                }
+                
+                URL.revokeObjectURL(url);
             }
         } else {
             createHeaderItem('No file open');

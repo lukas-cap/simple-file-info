@@ -13,7 +13,7 @@ export default class FileInfoPlugin extends Plugin {
 
 		this.addCommand({
 			id: 'show-file-info',
-			name: 'Show file info',
+			name: 'Activate pane',
 			callback: async () => {
 				await this.app.workspace.ensureSideLeaf(VIEW_TYPE_FILE_INFO, 'right', {
 					reveal: true,
