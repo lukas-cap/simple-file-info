@@ -11,10 +11,20 @@ export default class FileInfoPlugin extends Plugin {
             (leaf) => new FileInfoView(leaf)
         );
 
+		this.addCommand({
+			id: 'show-file-info',
+			name: 'Show file info',
+			callback: async () => {
+				await this.app.workspace.ensureSideLeaf(VIEW_TYPE_FILE_INFO, 'right', {
+					reveal: true,
+				});
+			},
+		});
+
 		this.app.workspace.onLayoutReady(async () => {
 			await this.app.workspace.ensureSideLeaf(VIEW_TYPE_FILE_INFO, 'right', {
 				reveal: false,
-				active: false
+				active: false,
 			});
         });
 
@@ -51,9 +61,5 @@ export default class FileInfoPlugin extends Plugin {
 				leaf.view.refreshFileInfo();
 			}
 		});
-	}
-
-	onunload() {
-        this.app.workspace.detachLeavesOfType(VIEW_TYPE_FILE_INFO);
 	}
 }

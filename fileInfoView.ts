@@ -1,4 +1,4 @@
-import { ItemView, Notice, WorkspaceLeaf, TFile, Platform, FileSystemAdapter, Menu } from "obsidian";
+import { ItemView, Notice, WorkspaceLeaf } from "obsidian";
 
 export const VIEW_TYPE_FILE_INFO = "file-info-view";
 
@@ -16,7 +16,7 @@ export class FileInfoView extends ItemView {
     }
 
     getDisplayText(): string {
-        return "File Info";
+        return "File info";
     }
 
     async onClose() {
@@ -90,12 +90,6 @@ export class FileInfoView extends ItemView {
 
             createInfoItem('File name', activeFile.name);
             createInfoItem('Vault path', activeFile.path);
-            
-            // const adapter = vault.adapter;
-            // if (adapter instanceof FileSystemAdapter) {
-            //     const fullPath = adapter.getFullPath(activeFile.path);
-            //     createInfoItem('Full path', fullPath);
-            // }
 
             const fileStats = await vault.adapter.stat(activeFile.path);
             if (fileStats) {
@@ -109,36 +103,27 @@ export class FileInfoView extends ItemView {
                 // Check if file is an image
                 const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.svg'];
                 if (imageExtensions.some(ext => activeFile.path.toLowerCase().endsWith(ext))) {
-                    try {
-                        const arrayBuffer = await vault.readBinary(activeFile);
-                        const blob = new Blob([arrayBuffer]);
-                        const url = URL.createObjectURL(blob);
-                        
-                        // Create image and wait for it to load
-                        const img = new Image();
-                        await new Promise((resolve, reject) => {
-                            img.onload = resolve;
-                            img.onerror = reject;
-                            img.src = url;
-                        });
+                    const arrayBuffer = await vault.readBinary(activeFile);
+                    const blob = new Blob([arrayBuffer]);
+                    const url = URL.createObjectURL(blob);
+                    
+                    // Create image and wait for it to load
+                    const img = new Image();
+                    await new Promise((resolve, reject) => {
+                        img.onload = resolve;
+                        img.onerror = reject;
+                        img.src = url;
+                    });
 
-                        createHeaderItem('Image');
-                        createInfoItem('Width', `${img.naturalWidth}px`);
-                        createInfoItem('Height', `${img.naturalHeight}px`);
-                        
-                        URL.revokeObjectURL(url);
-                    } catch (error) {
-                        console.error('Failed to read image dimensions:', error);
-                    }
+                    createHeaderItem('Image');
+                    createInfoItem('Width', `${img.naturalWidth}px`);
+                    createInfoItem('Height', `${img.naturalHeight}px`);
+                    
+                    URL.revokeObjectURL(url);
                 }
             }
         } else {
-            const item = paneContent.createDiv('tree-item');
-            const self = item.createDiv('tree-item-self');
-            self.createDiv({
-                cls: 'tree-item-inner',
-                text: 'No file open'
-            });
+            createHeaderItem('No file open');
         }
     }
 }

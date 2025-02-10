@@ -1,9 +1,9 @@
 {
-	"id": "obsidian-file-info",
-	"name": "File Info",
+	"id": "obsidian-simple-file-info",
+	"name": "Simple File Info",
 	"version": "1.0.0",
 	"minAppVersion": "1.8.4",
-	"description": "A simple file info plugin for Obsidian",
+	"description": "A simple file info pane that lives in the right sidebar.",
 	"author": "Lukas Capkovic",
 	"authorUrl": "https://github.com/lukas-cap/",
 	"isDesktopOnly": false
