@@ -1,6 +1,6 @@
 {
-	"id": "obsidian-simple-file-info",
-	"name": "Simple File Info",
+	"id": "simple-file-info",
+	"name": "Simple File Info Pane",
 	"version": "1.0.0",
 	"minAppVersion": "1.8.4",
 	"description": "A simple file info pane that lives in the right sidebar.",
