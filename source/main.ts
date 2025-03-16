@@ -1,5 +1,5 @@
 import { Plugin } from 'obsidian';
-import { VIEW_TYPE_FILE_INFO, FileInfoView } from 'fileInfoView';
+import { VIEW_TYPE_FILE_INFO, FileInfoView } from 'source/fileInfoView';
 
 export default class FileInfoPlugin extends Plugin {
 	private lastRefreshTime: number = 0;
