@@ -1,3 +1,7 @@
 # Simple File Info for Obsidian
 
-This plugin adds a simple file info tab to the right sidebar.
+File info pane that lives in Obsidian's right sidebar. No more, no less.
+
+The main priorities of this project are:
+- *simplicity*: fills the gap for basic file metadata in Obsidian without adding unnecessary bloat
+- *native look and feel*: avoids custom styling to feel at home regardless of the theme
