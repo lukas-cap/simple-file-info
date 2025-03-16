@@ -6,4 +6,9 @@ The main priorities of this project are:
 - *simplicity*: fills the gap for basic file metadata in Obsidian without adding unnecessary bloat
 - *native look and feel*: avoids custom styling to feel at home regardless of the theme
 
-![Text file info](readme-assets/simple-file.png) ![Image file info](readme-assets/image-file.png)
+---
+
+<p float="middle">
+    <img src="readme-assets/text-file.jpg" width="49%">
+    <img src="readme-assets/image-file.jpg" width="49%">
+</p>
