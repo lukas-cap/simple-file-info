@@ -1,12 +1,3 @@
-/*
-
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
-
-If your plugin does not need CSS, delete this file.
-
-*/
-
 .file-info-pane .tree-item-self {
     color: var(--text-faint);
     padding-inline-start: var(--size-4-2);
@@ -17,13 +8,11 @@ If your plugin does not need CSS, delete this file.
     font-weight: var(--nav-heading-weight);
 }
 
-/* Give the label minimum 30% of the width */
 .file-info-pane .tree-item-inner {
     flex: 0 0 40%;
     min-width: 0;
 }
 
-/* Let the container shrink and maintain right alignment */
 .file-info-pane .tree-item-flair-outer {
     flex: 0 1 auto;
     min-width: 0;
@@ -31,7 +20,6 @@ If your plugin does not need CSS, delete this file.
     margin-inline-start: auto;
 }
 
-/* Make the value wrap up to 3 lines but align right */
 .file-info-pane .tree-item-flair,
 .file-info-pane .tree-item-self:hover .tree-item-flair {
     color: var(--text-normal);
