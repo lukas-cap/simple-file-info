@@ -16,3 +16,6 @@ The main priorities of this project are:
     <img src="readme-assets/text-file.jpg" width="49%">
     <img src="readme-assets/image-file.jpg" width="49%">
 </p>
+
+### Attribution
+ExifReader used for basic image info - https://github.com/mattiasw/ExifReader
