@@ -1,6 +1,6 @@
 {
 	"name": "simple-file-info",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"author": "lukas-cap",
 	"main": "main.js",
 	"devDependencies": {
