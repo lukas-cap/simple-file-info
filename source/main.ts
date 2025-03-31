@@ -30,7 +30,7 @@ export default class FileInfoPlugin extends Plugin {
 			});
         });
 
-		// Listen for both file-open and active-leaf-change events
+		// Refresh without debouncing when a file is opened / active file is changed.
 		this.registerEvent(
 			this.app.workspace.on("file-open", () => {
 				this.refreshViews()
