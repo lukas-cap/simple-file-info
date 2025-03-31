@@ -128,7 +128,7 @@ export class FileInfoView extends ItemView {
 
                 const colorSpace = tags?.ColorSpace ?? tags?.["Color Space"] ?? tags?.["Color Type"];
                 if (colorSpace) {
-                    createInfoItem('Color Space', colorSpace.description);
+                    createInfoItem('Color space', colorSpace.description);
                 }
                 
                 URL.revokeObjectURL(url);

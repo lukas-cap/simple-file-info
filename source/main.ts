@@ -1,11 +1,13 @@
-import { Plugin } from 'obsidian';
+import { debounce, Plugin } from 'obsidian';
 import { VIEW_TYPE_FILE_INFO, FileInfoView } from 'source/fileInfoView';
 
 export default class FileInfoPlugin extends Plugin {
-	private lastRefreshTime: number = 0;
 	private readonly REFRESH_INTERVAL = 5000; // 5 seconds
+	private debouncedRefresh: () => void;
 
 	async onload() {
+		this.debouncedRefresh = debounce(() => this.refreshViews(), this.REFRESH_INTERVAL, false)
+
 		this.registerView(
             VIEW_TYPE_FILE_INFO,
             (leaf) => new FileInfoView(leaf)
@@ -40,18 +42,11 @@ export default class FileInfoPlugin extends Plugin {
 			this.app.vault.on('modify', (file) => {
 				const activeFile = this.app.workspace.getActiveFile();
 				if (file === activeFile) {
+					// Refresh on modify event at most every REFRESH_INTERVAL ms.
 					this.debouncedRefresh();
 				}
 			})
 		);
-	}
-
-	private debouncedRefresh() {
-		const now = Date.now();
-		if (now - this.lastRefreshTime >= this.REFRESH_INTERVAL) {
-			this.refreshViews();
-			this.lastRefreshTime = now;
-		}
 	}
 
 	private refreshViews() {
